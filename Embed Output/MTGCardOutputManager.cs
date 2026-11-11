@@ -34,7 +34,7 @@ namespace Coaction.KickAssCardBot.Embed_Output
             {
                 default:
                     title = $"{pulledCard.Name} {pulledCard.ManaCost}";
-                    card.ThumbnailUrl = pulledCard.ImageUris.Png ?? "none";
+                    card.ThumbnailUrl = pulledCard.ImageUris?.Png ?? pulledCard.CardFaces?.FirstOrDefault()?.image_uris?.Png ?? "none";
                     footer = string.IsNullOrEmpty(pulledCard.FlavorText) ? string.Empty : pulledCard.FlavorText;
                     break;
                 case LayoutConstants.Split:
@@ -84,7 +84,7 @@ namespace Coaction.KickAssCardBot.Embed_Output
                     break;
             }
 
-            if (pulledCard.OracleText != null)
+            if (!string.IsNullOrEmpty(pulledCard.OracleText))
             {
                 if (pulledCard.Power == null || pulledCard.Toughness == null)
                 {
@@ -113,7 +113,7 @@ namespace Coaction.KickAssCardBot.Embed_Output
             card.AddField("Foil Price", $"{pulledCard.Prices.UsdFoil ?? "No Pricing Data".TrimStart('$')}", true);
 
             card.AddField("Set Name", pulledCard.SetName, true);
-            card.AddField("Artist", pulledCard.Artist, true);
+            card.AddField("Artist", string.IsNullOrWhiteSpace(pulledCard.Artist) ? "Not available" : pulledCard.Artist, true);
             card.AddField("Reserved List", pulledCard.Reserved ? "On Reserved List" : "Not On Reserved List", true);
             card.AddField($"Rarity", $"{char.ToUpper(pulledCard.Rarity[0]) + pulledCard.Rarity.Substring(1)}", true);
 
@@ -151,6 +151,11 @@ namespace Coaction.KickAssCardBot.Embed_Output
 
         private string AddEmojisToText(MtgEmoji emojiObjectData, string oracleText)
         {
+            if (string.IsNullOrEmpty(oracleText))
+            {
+                return string.Empty;
+            }
+
             var rx = new Regex(@"\{(.*?)\}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
             var symbols = rx.Matches(oracleText);
 
