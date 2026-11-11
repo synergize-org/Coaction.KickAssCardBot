@@ -11,7 +11,7 @@
         public string uri { get; set; }
         public string scryfall_uri { get; set; }
         public string search_uri { get; set; }
-        public string released_at { get; set; }
+        public string? released_at { get; set; }
         public string set_type { get; set; }
         public int card_count { get; set; }
         public bool digital { get; set; }

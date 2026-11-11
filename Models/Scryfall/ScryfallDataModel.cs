@@ -225,7 +225,7 @@ namespace Coaction.KickAssCardBot.Models.Scryfall
             public string Future { get; set; }
 
             [JsonProperty("frontier")]
-            public string Frontier { get; set; }
+            public string? Frontier { get; set; }
 
             [JsonProperty("modern")]
             public string Modern { get; set; }

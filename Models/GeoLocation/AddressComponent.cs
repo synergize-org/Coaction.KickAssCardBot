@@ -8,7 +8,7 @@ namespace Coaction.KickAssCardBot.Models.GeoLocation
         public string LongName { get; set; }
 
         [JsonProperty("short_name")]
-        public string ShortName { get; set; }
+        public string? ShortName { get; set; }
 
         [JsonProperty("types")]
         public List<string> Types { get; set; }

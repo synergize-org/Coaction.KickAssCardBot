@@ -7,7 +7,7 @@ namespace Coaction.KickAssCardBot.Models.Scryfall
         [JsonProperty("symbol")]
         public string Symbol { get; set; }
         [JsonProperty("svg_uri")]
-        public string Svg_uri { get; set; }
+        public string? Svg_uri { get; set; }
     }
 
     public class Symbology
