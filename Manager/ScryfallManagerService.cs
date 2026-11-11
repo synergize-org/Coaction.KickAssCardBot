@@ -195,12 +195,6 @@ namespace Coaction.KickAssCardBot.Manager
             var query = "order:spoiled has:imagedata -is:extra -!Plains -!Island -!Swamp -!Mountain -!Forest";
             var encodedQuery = Uri.EscapeDataString(query);
             var url = $"https://api.scryfall.com/cards/search?q={encodedQuery}&order=spoiled&unique=prints&include_extras=false&format=json";
-            var cacheKey = $"spoilers-{encodedQuery}";
-            var cacheValue = _memoryCache.Get(cacheKey);
-            if (cacheValue is List<ScryfallSpoilerSearchResult> cachedSpoilers)
-            {
-                return cachedSpoilers.Take(resultLimit).ToList();
-            }
 
             try
             {
@@ -213,7 +207,6 @@ namespace Coaction.KickAssCardBot.Manager
                     .Take(resultLimit)
                     .ToList();
 
-                _memoryCache.Set(cacheKey, spoilerResults, _cacheEntryOptions);
                 return spoilerResults;
             }
             catch (Exception msg)
@@ -287,5 +280,9 @@ namespace Coaction.KickAssCardBot.Manager
         public string Id { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public string? ScryfallUri { get; set; }
+        [JsonProperty("set_name")]
+        public string SetName { get; set; } = string.Empty;
+        [JsonProperty("released_at")]
+        public DateTime ReleasedAt { get; set; }
     }
 }
