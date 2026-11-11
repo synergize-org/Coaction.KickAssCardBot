@@ -14,6 +14,6 @@ namespace Coaction.KickAssCardBot.Models.MagicEventLocator
         public int TotalResults { get; set; }
 
         [JsonProperty("results")]
-        public List<Event>? Results { get; set; }
+        public List<Event> Results { get; set; }
     }
 }

@@ -11,19 +11,19 @@ namespace Coaction.KickAssCardBot.Models.MagicEventLocator
         public uint OrganizationId { get; set; }
 
         [JsonProperty("groupId")]
-        public string? GroupId { get; set; }
+        public string GroupId { get; set; }
 
         [JsonProperty("status")]
-        public string? Status { get; set; }
+        public string Status { get; set; }
 
         [JsonProperty("name")]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         [JsonProperty("cost")]
         public double Cost { get; set; }
 
         [JsonProperty("currency")]
-        public string? Currency { get; set; }
+        public string Currency { get; set; }
 
         [JsonProperty("startingTableNumber")]
         public int StartingTableNumber { get; set; }
@@ -38,7 +38,7 @@ namespace Coaction.KickAssCardBot.Models.MagicEventLocator
         public bool IsOnline { get; set; }
 
         [JsonProperty("officialEventTemplate")]
-        public string? OfficialEventTemplate { get; set; }
+        public string OfficialEventTemplate { get; set; }
 
         [JsonProperty("reservations")]
         public int Reservations { get; set; }
@@ -53,7 +53,7 @@ namespace Coaction.KickAssCardBot.Models.MagicEventLocator
         public bool IsPrivate { get; set; }
 
         [JsonProperty("description")]
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
         [JsonProperty("latitude")]
         public double Latitude { get; set; }
@@ -65,16 +65,16 @@ namespace Coaction.KickAssCardBot.Models.MagicEventLocator
         public DateTime StartDatetime { get; set; }
 
         [JsonProperty("tags")]
-        public List<string>? Tags { get; set; }
+        public List<string> Tags { get; set; }
 
         [JsonProperty("formatId")]
-        public string? FormatId { get; set; }
+        public string FormatId { get; set; }
 
         [JsonProperty("distance")]
         public double Distance { get; set; }
 
         [JsonProperty("format")]
-        public string? Format { get; set; }
+        public string Format { get; set; }
 
         [JsonProperty("requiredTeamSize")]
         public int RequiredTeamSize { get; set; }
@@ -83,8 +83,8 @@ namespace Coaction.KickAssCardBot.Models.MagicEventLocator
         public int? Capacity { get; set; }
 
         [JsonProperty("cardSetId")]
-        public string? CardSetId { get; set; }
+        public string CardSetId { get; set; }
 
-        public Store? Store { get; set; }
+        public Store Store { get; set; }
     }
 }

@@ -61,9 +61,9 @@ public class BotService : IHostedService
 
         #if DEBUG
         _logger.LogDebug("Bot is in debug mode. Acquiring test token.");
-        token = _configuration["TESTBOT_KEY"]!;
+        token = _configuration["TESTBOT_KEY"];
         #else
-        token = _configuration["KickAssCardBot_ApiKey"]!;
+        token = _configuration["KickAssCardBot_ApiKey"];
         #endif
 
         await _client.LoginAsync(TokenType.Bot, token);

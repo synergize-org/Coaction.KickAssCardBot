@@ -6,7 +6,7 @@ namespace Coaction.KickAssCardBot.Helpers
 {
     public static class ButtonComponentHelper
     {
-        public static ComponentBuilder BuildBuyButtons(ScryfallDataModel.CardData cardData, bool displayRulesButton = true, List<SelectMenuOptionBuilder>? selectItems = null)
+        public static ComponentBuilder BuildBuyButtons(ScryfallDataModel.CardData cardData, bool displayRulesButton = true, List<SelectMenuOptionBuilder> selectItems = null)
         {
             var purchaseCardButtons = new ComponentBuilder();
 
@@ -52,14 +52,14 @@ namespace Coaction.KickAssCardBot.Helpers
             return purchaseCardButtons;
         }
 
-        public static ComponentBuilder BuildRuleButtons(ScryFallCardRulingsModel rules, ScryFallCardRulingsModel.Rule? currentRule, Guid cardId, bool buttonDisabled = false)
+        public static ComponentBuilder BuildRuleButtons(ScryFallCardRulingsModel rules, ScryFallCardRulingsModel.Rule currentRule, Guid cardId, bool buttonDisabled = false)
         {
-            var rule = rules.Rules!.FirstOrDefault(x => x == currentRule);
+            var rule = rules.Rules.FirstOrDefault(x => x == currentRule);
             var component = new ComponentBuilder();
 
             if (rule != null)
             {
-                var index = rules.Rules!.IndexOf(rule);
+                var index = rules.Rules.IndexOf(rule);
 
                 // Checks if there's a previous element to provide previous button.
                 if (index - 1 > -1)
@@ -68,7 +68,7 @@ namespace Coaction.KickAssCardBot.Helpers
                 }
 
                 // Checks if there's a next element to provide a next button.
-                if (index + 1 < rules.Rules!.Count)
+                if (index + 1 < rules.Rules.Count)
                 {
                     component.WithButton("Next", style: ButtonStyle.Primary, customId: $"CardRule-Next-{cardId}#{index}", disabled: buttonDisabled);
                 }

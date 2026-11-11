@@ -20,7 +20,7 @@ namespace Coaction.KickAssCardBot.Commands.SlashCommands
             var events = await _wizardsEventLocatorManager.GetEventLocationByZipcode(zipCode);
             if (events is { Count: > 0 })
             {
-                var optionBuilder = events.Select(magicEvent => new SelectMenuOptionBuilder { Label = $"{magicEvent.Name}", Description = magicEvent.Format!.ToLower(), Value = $"magicevent-{magicEvent.EventId}" }).ToList();
+                var optionBuilder = events.Select(magicEvent => new SelectMenuOptionBuilder { Label = $"{magicEvent.Name}", Description = magicEvent.Format.ToLower(), Value = $"magicevent-{magicEvent.EventId}" }).ToList();
                 var componentBuilder = new ComponentBuilder();
                 componentBuilder.WithSelectMenu($"magicevent-{zipCode}", optionBuilder, "Events");
                 var embedBuilder = new EmbedBuilder

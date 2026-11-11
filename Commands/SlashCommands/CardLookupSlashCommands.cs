@@ -22,7 +22,7 @@ namespace Coaction.KickAssCardBot.Commands.SlashCommands
         public async Task CardLookup(string cardName, string setName = "")
         {
             var cardData = await _scryfallManager.PullScryfallData(cardName, setName);
-            var scryFallSetData = await _scryfallManager.PullScryfallSetData(cardData.PrintsSearchUri!);
+            var scryFallSetData = await _scryfallManager.PullScryfallSetData(cardData?.PrintsSearchUri);
             var purchaseCardButtons = ButtonComponentHelper.BuildBuyButtons(cardData, selectItems: scryFallSetData?.BuildPrintingSelectMenu());
             await Context.Interaction.RespondAsync(embed: _mtgCardOutputManager.CardOutput(cardData).Build(), components: purchaseCardButtons.Build());
         }
@@ -32,7 +32,7 @@ namespace Coaction.KickAssCardBot.Commands.SlashCommands
         {
             var cardData = await _scryfallManager.PullScryfallData(cardName);
             var rulingData = await _scryfallManager.PullScryFallRuleData(cardData.Id);
-            var firstRule = rulingData.Rules!.FirstOrDefault();
+            var firstRule = rulingData.Rules.FirstOrDefault();
             var embedBuilder = _mtgCardOutputManager.RulingOutput(rulingData, cardData, firstRule);
             var purchaseCardButtons = ButtonComponentHelper.BuildRuleButtons(rulingData, firstRule, cardData.Id);
 

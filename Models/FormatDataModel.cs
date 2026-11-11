@@ -2,10 +2,10 @@
 {
     public class FormatDataModel
     {
-        public List<MoversShakersRabbitModel.DailyWinner>? DailyWinners { get; set; }
-        public List<MoversShakersRabbitModel.DailyLoser>? DailyLosers { get; set; }
-        public List<MoversShakersRabbitModel.WeeklyWinner>? WeeklyWinners { get; set; }
-        public List<MoversShakersRabbitModel.WeeklyLoser>? WeeklyLosers { get; set; }
+        public List<MoversShakersRabbitModel.DailyWinner> DailyWinners { get; set; }
+        public List<MoversShakersRabbitModel.DailyLoser> DailyLosers { get; set; }
+        public List<MoversShakersRabbitModel.WeeklyWinner> WeeklyWinners { get; set; }
+        public List<MoversShakersRabbitModel.WeeklyLoser> WeeklyLosers { get; set; }
 
         public FormatDataModel(MoversShakersRabbitModel.Standard cardData)
         {

@@ -128,14 +128,14 @@ public class CommandHandlingService
                     {
                         var cardData = await _scryfallManagerService.PullScryfallData(entryString);
                         var rulingData = await _scryfallManagerService.PullScryFallRuleData(cardData.Id);
-                        var firstRule = rulingData.Rules!.FirstOrDefault();
+                        var firstRule = rulingData.Rules.FirstOrDefault();
                         var buttons =  ButtonComponentHelper.BuildRuleButtons(rulingData, firstRule, cardData.Id);
                         messages.Add((_mtgCardOutputManager.CardOutput(cardData), buttons));
                     }
                     else if (entryString != null)
                     {
                         var cardData = await _scryfallManagerService.PullScryfallData(entryString);
-                        var scryFallSetData = await _scryfallManagerService.PullScryfallSetData(cardData.PrintsSearchUri!);
+                        var scryFallSetData = await _scryfallManagerService.PullScryfallSetData(cardData?.PrintsSearchUri);
                         var purchaseCardButtons = ButtonComponentHelper.BuildBuyButtons(cardData, selectItems: scryFallSetData?.BuildPrintingSelectMenu());
                         messages.Add((_mtgCardOutputManager.CardOutput(cardData), purchaseCardButtons));
                     }

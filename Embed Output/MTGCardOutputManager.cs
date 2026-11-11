@@ -43,11 +43,10 @@ namespace Coaction.KickAssCardBot.Embed_Output
                 case LayoutConstants.Adventure:
                 case LayoutConstants.Prepare:
                 case LayoutConstants.Flip:
-                    var cardFaces = pulledCard.CardFaces!;
-                    var firstCardFace = cardFaces[0];
-                    var secondCardFace = cardFaces[1];
+                    var firstCardFace = pulledCard.CardFaces[0];
+                    var secondCardFace = pulledCard.CardFaces[1];
                     card.ThumbnailUrl = firstCardFace.image_uris?.Png ?? pulledCard.ImageUris?.Png ?? "none";
-                    title = $"{firstCardFace.name} {firstCardFace.mana_cost}";
+                    title = $"{pulledCard.CardFaces[0].name} {pulledCard.CardFaces[0].mana_cost}";
                     string description;
 
                     if (firstCardFace.power == null || firstCardFace.toughness == null)
@@ -64,7 +63,7 @@ namespace Coaction.KickAssCardBot.Embed_Output
                         description += $"\n \n **Starting Defense: {firstCardFace.Defense}**";
                     }
 
-                    var divider = '-'.Multiply(firstCardFace.name!.Length);
+                    var divider = '-'.Multiply(pulledCard.CardFaces[0].name.Length);
                     description += $"\n \n {divider} \n \n [{secondCardFace.name} {secondCardFace.mana_cost}]({pulledCard.ScryfallUri}) \n";
 
                     if (secondCardFace.power == null || secondCardFace.toughness == null)
@@ -110,13 +109,13 @@ namespace Coaction.KickAssCardBot.Embed_Output
             card.Url = pulledCard.ScryfallUri;
             card.Title = title;
 
-            card.AddField("Non-Foil Price", $"{pulledCard.Prices!.Usd ?? "No Pricing Data".TrimStart('$')}", true);
+            card.AddField("Non-Foil Price", $"{pulledCard.Prices.Usd ?? "No Pricing Data".TrimStart('$')}", true);
             card.AddField("Foil Price", $"{pulledCard.Prices.UsdFoil ?? "No Pricing Data".TrimStart('$')}", true);
 
             card.AddField("Set Name", pulledCard.SetName, true);
             card.AddField("Artist", string.IsNullOrWhiteSpace(pulledCard.Artist) ? "Not available" : pulledCard.Artist, true);
             card.AddField("Reserved List", pulledCard.Reserved ? "On Reserved List" : "Not On Reserved List", true);
-            card.AddField($"Rarity", $"{char.ToUpper(pulledCard.Rarity![0]) + pulledCard.Rarity.Substring(1)}", true);
+            card.AddField($"Rarity", $"{char.ToUpper(pulledCard.Rarity[0]) + pulledCard.Rarity.Substring(1)}", true);
 
             card.WithFooter(footer);
 
@@ -136,11 +135,10 @@ namespace Coaction.KickAssCardBot.Embed_Output
                 case LayoutConstants.Adventure:
                 case LayoutConstants.Prepare:
                 case LayoutConstants.Flip:
-                    var cardFaces = cardData.CardFaces!;
-                    cardFaces[0].mana_cost = AddEmojisToText(emojiObjectData, cardFaces[0].mana_cost);
-                    cardFaces[1].mana_cost = AddEmojisToText(emojiObjectData, cardFaces[1].mana_cost);
-                    cardFaces[0].oracle_text = AddEmojisToText(emojiObjectData, cardFaces[0].oracle_text);
-                    cardFaces[1].oracle_text = AddEmojisToText(emojiObjectData, cardFaces[1].oracle_text);
+                    cardData.CardFaces[0].mana_cost = AddEmojisToText(emojiObjectData, cardData.CardFaces[0].mana_cost);
+                    cardData.CardFaces[1].mana_cost = AddEmojisToText(emojiObjectData, cardData.CardFaces[1].mana_cost);
+                    cardData.CardFaces[0].oracle_text = AddEmojisToText(emojiObjectData, cardData.CardFaces[0].oracle_text);
+                    cardData.CardFaces[1].oracle_text = AddEmojisToText(emojiObjectData, cardData.CardFaces[1].oracle_text);
                     break;
                 default:
                     cardData.ManaCost = AddEmojisToText(emojiObjectData, cardData.ManaCost);
@@ -151,7 +149,7 @@ namespace Coaction.KickAssCardBot.Embed_Output
             return cardData;
         }
 
-        private string AddEmojisToText(MtgEmoji emojiObjectData, string? oracleText)
+        private string AddEmojisToText(MtgEmoji emojiObjectData, string oracleText)
         {
             if (string.IsNullOrEmpty(oracleText))
             {
@@ -168,7 +166,7 @@ namespace Coaction.KickAssCardBot.Embed_Output
                 {
                     oracleText = oracleText.Replace(symbol, symbol.Replace("/", ""));
                     symbol = symbol.Replace("/", "");
-                    if (emojiObjectData.Emojis!.TryGetValue(symbol, out var emojiId))
+                    if (emojiObjectData.Emojis.TryGetValue(symbol, out var emojiId))
                     {
                         switch (symbol)
                         {
@@ -193,7 +191,7 @@ namespace Coaction.KickAssCardBot.Embed_Output
             return oracleText;
         }
 
-        public EmbedBuilder RulingOutput(ScryFallCardRulingsModel rulings, ScryfallDataModel.CardData cardData, ScryFallCardRulingsModel.Rule? targetRule)
+        public EmbedBuilder RulingOutput(ScryFallCardRulingsModel rulings, ScryfallDataModel.CardData cardData, ScryFallCardRulingsModel.Rule targetRule)
         {
             var rulingEmbed = new EmbedBuilder();
             rulingEmbed.WithColor(SuccessfulColor);
@@ -202,12 +200,12 @@ namespace Coaction.KickAssCardBot.Embed_Output
 
             if (targetRule != null)
             {
-                var rule = rulings.Rules!.FirstOrDefault(x => x == targetRule);
+                var rule = rulings.Rules.FirstOrDefault(x => x == targetRule);
 
                 if (rule != null)
                 {
-                    var totalRules = rulings.Rules!.Count;
-                    var currentIndex = rulings.Rules!.IndexOf(rule) + 1;
+                    var totalRules = rulings.Rules.Count;
+                    var currentIndex = rulings.Rules.IndexOf(rule) + 1;
 
                     rulingEmbed.AddField($"{rule.published_at}", rule.comment, false);
                     rulingEmbed.WithFooter($"Rule {currentIndex} of {totalRules}");
@@ -236,7 +234,7 @@ namespace Coaction.KickAssCardBot.Embed_Output
             return embed;
         }
 
-        private EmbedBuilder ApiSpellFailure(ScryFallAutoCompleteModel? entry, string? nameGiven)
+        private EmbedBuilder ApiSpellFailure(ScryFallAutoCompleteModel entry, string nameGiven)
         {
             var mtgFailure = new EmbedBuilder();
             mtgFailure.WithColor(FailedColor);
@@ -266,7 +264,7 @@ namespace Coaction.KickAssCardBot.Embed_Output
             return mtgFailure;
         }
 
-        public EmbedBuilder DetermineFailure(int num, ScryFallAutoCompleteModel? entry = null, string? entryValue = null)
+        public EmbedBuilder DetermineFailure(int num, ScryFallAutoCompleteModel entry = null, string entryValue = null)
         {
             switch (num)
             {

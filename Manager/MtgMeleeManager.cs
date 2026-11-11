@@ -31,36 +31,36 @@ namespace Coaction.KickAssCardBot.Manager
                 return data;
             }
             var results = new Dictionary<string, TournamentResponse>();
-            var roundIds = await _htmlAgilityManager.GetAllRoundIds(tournamentId);
+            var roundIds = await _htmlAgilityManager.GetAllRoundIds(tournamentId);     
             var tournamentDetails = await GetTournamentDetails(tournamentId);
             foreach (var roundId in roundIds) 
             {
                 var parsedResponse = await GetTournamentResponse(roundId.Value, 500);
                 if (parsedResponse != null)
                 {
-                    if (parsedResponse.Data!.Count == 0)
+                    if (parsedResponse.Data.Count == 0)
                     {
                         continue;
                     }
 
                     var maximumResults = (int)parsedResponse.RecordsTotal;
                     _logger.LogInformation($"Number of decks {maximumResults} for tournament {tournamentId} in {roundId.Key}.");
-                    if (parsedResponse.Data!.Count < maximumResults)
+                    if (parsedResponse.Data.Count < maximumResults)
                     {
                         _logger.LogInformation($"Unable to obtain all decks due to number. Attempting to obtain additional decks.");
                         while (parsedResponse.Data.Count != maximumResults)
                         {
-                            _logger.LogInformation($"Current deck count {parsedResponse.Data!.Count} out of {maximumResults}.");
-                            var additionalDecks = await GetTournamentResponse(roundId.Value, maximumResults - parsedResponse.Data!.Count, parsedResponse.Data!.Count);
-                            parsedResponse.Data!.AddRange(additionalDecks!.Data!);
+                            _logger.LogInformation($"Current deck count {parsedResponse.Data.Count} out of {maximumResults}.");
+                            var additionalDecks = await GetTournamentResponse(roundId.Value, maximumResults - parsedResponse.Data.Count, parsedResponse.Data.Count);
+                            parsedResponse.Data.AddRange(additionalDecks.Data);
                         }
 
-                        _logger.LogInformation($"{parsedResponse.Data!.Count} out of {maximumResults} decks acquired.");
+                        _logger.LogInformation($"{parsedResponse.Data.Count} out of {maximumResults} decks acquired.");
                     }
 
                     parsedResponse.TournamentName = tournamentDetails?.Name;
-                    parsedResponse.PlayerCount = (int)(tournamentDetails?.ParticipatorCount)!;
-                    parsedResponse.Status = tournamentDetails!.Status;
+                    parsedResponse.PlayerCount = (int)tournamentDetails?.ParticipatorCount;
+                    parsedResponse.Status = tournamentDetails.Status;
                     parsedResponse.StartDate = tournamentDetails.StartDate;
                     results[roundId.Key] = parsedResponse;
                 }
@@ -73,7 +73,7 @@ namespace Coaction.KickAssCardBot.Manager
             return results;
         }
 
-        private async Task<TournamentResponse?> GetTournamentResponse(string roundId, int standingsLength, int standingsStart = 0)
+        private async Task<TournamentResponse> GetTournamentResponse(string roundId, int standingsLength, int standingsStart = 0)
         {
             using var httpClient = HttpClientFactory.GetValidMtgMeleeClient();
             using var formDataRequest = BuildRoundStandingsRequest(roundId, standingsLength, standingsStart);
@@ -87,7 +87,7 @@ namespace Coaction.KickAssCardBot.Manager
             return parsedResponse;
         }
 
-        private async Task<TournamentDetailsResponse?> GetTournamentDetails(string tournamentId)
+        private async Task<TournamentDetailsResponse> GetTournamentDetails(string tournamentId)
         {
             using var httpClient = HttpClientFactory.GetValidMtgMeleeClient();
             var request = await httpClient.GetAsync($"/Tournament/GetTournamentDetails?id={tournamentId}");
