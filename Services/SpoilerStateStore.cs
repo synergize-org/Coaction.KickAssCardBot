@@ -9,6 +9,7 @@ namespace Coaction.KickAssCardBot.Services
         private readonly string _filePath;
         private readonly object _stateLock = new();
         private readonly ConcurrentQueue<QueuedSpoilerCard> _queue;
+        private readonly SemaphoreSlim _queueSignal;
 
         public SpoilerStateStore()
         {
@@ -24,6 +25,7 @@ namespace Coaction.KickAssCardBot.Services
             _filePath = Path.Combine(directory, "state.json");
             EnsureInitialized();
             _queue = new ConcurrentQueue<QueuedSpoilerCard>(LoadState().QueuedCards.Select(CopyQueuedCard));
+            _queueSignal = new SemaphoreSlim(_queue.Count);
         }
 
         public DiscordSpoilerConfig? GetGuildConfig(ulong guildId)
@@ -173,6 +175,19 @@ namespace Coaction.KickAssCardBot.Services
                 foreach (var card in cardsToEnqueue)
                 {
                     _queue.Enqueue(CopyQueuedCard(card));
+                    _queueSignal.Release();
+                }
+            }
+        }
+
+        public async Task<QueuedSpoilerCard> WaitForQueuedCardAsync(CancellationToken cancellationToken)
+        {
+            while (true)
+            {
+                await _queueSignal.WaitAsync(cancellationToken);
+                if (TryDequeueQueuedCard(out var card) && card != null)
+                {
+                    return card;
                 }
             }
         }
@@ -246,6 +261,7 @@ namespace Coaction.KickAssCardBot.Services
                     state.QueuedCards.Add(queuedCard);
                     SaveState(state);
                     _queue.Enqueue(CopyQueuedCard(queuedCard));
+                    _queueSignal.Release();
                 }
             }
         }

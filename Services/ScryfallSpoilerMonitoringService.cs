@@ -16,8 +16,9 @@ namespace Coaction.KickAssCardBot.Services
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly MtgCardOutputManager _mtgCardOutputManager;
         private readonly SpoilerStateStore _spoilerStateStore;
+        private readonly TaskCompletionSource _clientReady = new(TaskCreationOptions.RunContinuationsAsynchronously);
         private readonly TimeSpan _pollInterval = TimeSpan.FromMinutes(5);
-        private readonly TimeSpan _messageInterval = TimeSpan.FromSeconds(30);
+        private readonly TimeSpan _retryDelay = TimeSpan.FromSeconds(1);
 
         public ScryfallSpoilerMonitoringService(
             ILogger<ScryfallSpoilerMonitoringService> logger,
@@ -31,11 +32,29 @@ namespace Coaction.KickAssCardBot.Services
             _scopeFactory = scopeFactory;
             _mtgCardOutputManager = mtgCardOutputManager;
             _spoilerStateStore = spoilerStateStore;
+            _client.Ready += OnClientReadyAsync;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await Task.WhenAll(PollForSpoilersAsync(stoppingToken), SendQueuedCardsAsync(stoppingToken));
+            try
+            {
+                await _clientReady.Task.WaitAsync(stoppingToken);
+                await Task.WhenAll(PollForSpoilersAsync(stoppingToken), SendQueuedCardsAsync(stoppingToken));
+            }
+            catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
+            {
+            }
+            finally
+            {
+                _client.Ready -= OnClientReadyAsync;
+            }
+        }
+
+        private Task OnClientReadyAsync()
+        {
+            _clientReady.TrySetResult();
+            return Task.CompletedTask;
         }
 
         private async Task PollForSpoilersAsync(CancellationToken stoppingToken)
@@ -164,10 +183,14 @@ namespace Coaction.KickAssCardBot.Services
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                await Task.Delay(_messageInterval, stoppingToken);
-                if (!_spoilerStateStore.TryDequeueQueuedCard(out var queuedCard) || queuedCard == null)
+                QueuedSpoilerCard? queuedCard;
+                try
                 {
-                    continue;
+                    queuedCard = await _spoilerStateStore.WaitForQueuedCardAsync(stoppingToken);
+                }
+                catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
+                {
+                    break;
                 }
 
                 try
@@ -199,6 +222,14 @@ namespace Coaction.KickAssCardBot.Services
                 {
                     _logger.LogError(ex, "Failed to send queued spoiler card {CardId}; returning it to the queue", queuedCard.CardId);
                     _spoilerStateStore.ReturnQueuedCardToEnd(queuedCard);
+                    try
+                    {
+                        await Task.Delay(_retryDelay, stoppingToken);
+                    }
+                    catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
+                    {
+                        break;
+                    }
                 }
             }
         }
