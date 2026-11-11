@@ -20,7 +20,7 @@ namespace Coaction.KickAssCardBot.Extensions
                 .RemoveDuplicates()
                 .CardData;
 
-            return selectOptions.DistinctBy(x => x.SetName).Take(25).Select(print => new SelectMenuOptionBuilder { Label = print.SetName, Value = print.Set }).ToList();
+            return selectOptions!.DistinctBy(x => x.SetName).Take(25).Select(print => new SelectMenuOptionBuilder { Label = print.SetName, Value = print.Set }).ToList();
         }
     }
 }

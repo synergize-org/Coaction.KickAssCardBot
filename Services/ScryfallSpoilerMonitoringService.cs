@@ -206,8 +206,8 @@ namespace Coaction.KickAssCardBot.Services
                     var scryfallManagerService = scope.ServiceProvider.GetRequiredService<ScryfallManagerService>();
                     var cardData = await scryfallManagerService.PullScryfallData(cardId);
                     var setName = string.IsNullOrWhiteSpace(queuedCard.SetName)
-                        ? cardData.SetName
-                        : queuedCard.SetName;
+                        ? cardData.SetName!
+                        : queuedCard.SetName!;
                     var guild = _client.GetGuild(queuedCard.GuildId)
                         ?? throw new InvalidOperationException($"Guild {queuedCard.GuildId} is not available.");
                     var channel = guild.GetTextChannel(queuedCard.ChannelId)

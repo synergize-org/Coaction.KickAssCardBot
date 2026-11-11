@@ -87,14 +87,14 @@ namespace Coaction.KickAssCardBot.Models.Scryfall
 
             public Dictionary<string, string> AllLegalities => new()
             {
-                {"Standard ", LegalityDictionary.Legality[Legalities.Standard]},
-                {"Modern   ", LegalityDictionary.Legality[Legalities.Modern]},
-                {"Legacy   ", LegalityDictionary.Legality[Legalities.Legacy]},
-                {"Vintage  ", LegalityDictionary.Legality[Legalities.Vintage]},
-                {"Pauper   ", LegalityDictionary.Legality[Legalities.Pauper]},
-                {"Pioneer  ", LegalityDictionary.Legality[Legalities.Pioneer]},
-                {"Commander", LegalityDictionary.Legality[Legalities.Commander]},
-                {"Historic ", LegalityDictionary.Legality[Legalities.Historic]}
+                {"Standard ", LegalityDictionary.Legality[Legalities!.Standard!]},
+                {"Modern   ", LegalityDictionary.Legality[Legalities.Modern!]},
+                {"Legacy   ", LegalityDictionary.Legality[Legalities.Legacy!]},
+                {"Vintage  ", LegalityDictionary.Legality[Legalities.Vintage!]},
+                {"Pauper   ", LegalityDictionary.Legality[Legalities.Pauper!]},
+                {"Pioneer  ", LegalityDictionary.Legality[Legalities.Pioneer!]},
+                {"Commander", LegalityDictionary.Legality[Legalities.Commander!]},
+                {"Historic ", LegalityDictionary.Legality[Legalities.Historic!]}
             };
 
             [JsonProperty("games")]

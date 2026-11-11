@@ -20,19 +20,19 @@ namespace Coaction.KickAssCardBot.Models.Scryfall
 
         public ScryfallPrints FilterOnlyPrintsWithPricingData()
         {
-            CardData = this.CardData.Where(x => x.Prices?.Usd != null || x.Prices?.UsdFoil != null).ToList();
+            CardData = this.CardData!.Where(x => x.Prices?.Usd != null || x.Prices?.UsdFoil != null).ToList();
             return this;
         }
 
         public ScryfallPrints FilterByGameType(GameType gameType)
         {
-            CardData = this.CardData.Where(x => x.Games.Contains(gameType.ToScryfallString())).ToList();
+            CardData = this.CardData!.Where(x => x.Games!.Contains(gameType.ToScryfallString())).ToList();
             return this;
         }
 
         public ScryfallPrints RemoveDuplicates()
         {
-            CardData = CardData.DistinctBy(x => x.Name).ToList();
+            CardData = CardData!.DistinctBy(x => x.Name).ToList();
             return this;
         }
     }

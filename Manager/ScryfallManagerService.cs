@@ -50,10 +50,10 @@ namespace Coaction.KickAssCardBot.Manager
 
             if (!string.IsNullOrEmpty(setName))
             {
-                var setData = await PullScryfallSetData(result.PrintsSearchUri);
-                if (setData.CardData.Any(x => x.Set == setName.ToLower()))
+                var setData = await PullScryfallSetData(result.PrintsSearchUri!);
+                if (setData.CardData!.Any(x => x.Set == setName.ToLower()))
                 {
-                    result = setData.CardData.First(x => x.Set == setName.ToLower());
+                    result = setData.CardData!.First(x => x.Set == setName.ToLower());
                 }
             }
 
@@ -241,7 +241,7 @@ namespace Coaction.KickAssCardBot.Manager
             }
             catch (HttpRequestException exception)
             {
-                _logger.LogError("Failed to acquire card information via exact link. Attempting Fuzzy..", exception);
+                _logger.LogError(exception, "Failed to acquire card information via exact link. Attempting Fuzzy..");
                 return await FuzzyScryFall(cardName);
             }
             catch (Exception e)
@@ -256,14 +256,14 @@ namespace Coaction.KickAssCardBot.Manager
         {
             var legalitiesDictionary = new Dictionary<string, string>
             {
-                {"Standard", LegalityDictionary.Legality[legalities.Standard]},
-                {"Modern", LegalityDictionary.Legality[legalities.Modern]},
-                {"Legacy", LegalityDictionary.Legality[legalities.Legacy]},
-                {"Vintage", LegalityDictionary.Legality[legalities.Vintage]},
-                {"Commander", LegalityDictionary.Legality[legalities.Commander]},
-                {"Pauper", LegalityDictionary.Legality[legalities.Pauper]},
-                {"Pioneer", LegalityDictionary.Legality[legalities.Pioneer]},
-                {"Historic", LegalityDictionary.Legality[legalities.Historic]}
+                {"Standard", LegalityDictionary.Legality[legalities.Standard!]},
+                {"Modern", LegalityDictionary.Legality[legalities.Modern!]},
+                {"Legacy", LegalityDictionary.Legality[legalities.Legacy!]},
+                {"Vintage", LegalityDictionary.Legality[legalities.Vintage!]},
+                {"Commander", LegalityDictionary.Legality[legalities.Commander!]},
+                {"Pauper", LegalityDictionary.Legality[legalities.Pauper!]},
+                {"Pioneer", LegalityDictionary.Legality[legalities.Pioneer!]},
+                {"Historic", LegalityDictionary.Legality[legalities.Historic!]}
             };
 
             return legalitiesDictionary;

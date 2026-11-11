@@ -24,7 +24,7 @@ namespace Coaction.KickAssCardBot.Manager
             { 
                 var filteredEvents = new List<Event>();
                 var geoLocationResults = await _geoLocationApiManager.GetLocationByZipCode(zipcode);
-                var geoLocation = geoLocationResults.Results.FirstOrDefault();
+                var geoLocation = geoLocationResults.Results!.FirstOrDefault()!;
                 var meters = miles * 1609.344;
                 using var client = new HttpClient
                 {
@@ -33,7 +33,7 @@ namespace Coaction.KickAssCardBot.Manager
 
                 var regionalQualifierResults = await client.GetAsync(
                     $"search?" +
-                    $"lat={geoLocation.Geometry.Location.Latitude}&" +
+                    $"lat={geoLocation.Geometry!.Location!.Latitude}&" +
                     $"lng={geoLocation.Geometry.Location.Longitude}&" +
                     $"isPremium=false&" +
                     $"tag=magic:_the_gathering&" +
@@ -49,7 +49,7 @@ namespace Coaction.KickAssCardBot.Manager
                 if (regionalQualifierEvents is { Count: > 0 })
                 {
                     filteredEvents.AddRange(regionalQualifierEvents.Where(x =>
-                        x.Tags.Contains("regional_championship") ||
+                        x.Tags!.Contains("regional_championship") ||
                         x.Tags.Contains("regional_championship_qualifier") || x.Tags.Contains("store_championship")));
 
                     foreach (var magicEvent in filteredEvents)
@@ -73,7 +73,7 @@ namespace Coaction.KickAssCardBot.Manager
             }
         }
 
-        public async Task<Store> GetStoreDetails(uint storeId)
+        public async Task<Store?> GetStoreDetails(uint storeId)
         {
             try
             {

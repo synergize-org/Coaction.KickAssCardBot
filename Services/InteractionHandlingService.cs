@@ -89,7 +89,7 @@ namespace Coaction.KickAssCardBot.Services
             if (arg.Data.CustomId.Contains("cardset-"))
             {
                 var cardId = arg.Data.CustomId.Replace("cardset-", "");
-                var cardInfo = await _scryfallManagerService.PullScryfallData(cardId, arg.Data.Values.FirstOrDefault());
+                var cardInfo = await _scryfallManagerService.PullScryfallData(cardId, arg.Data.Values.FirstOrDefault()!);
                 var purchaseCardButtons = ButtonComponentHelper.BuildBuyButtons(cardInfo, false);
                 await arg.RespondAsync(embed: _mtgCardOutputManager.CardOutput(cardInfo).Build(), components: purchaseCardButtons.Build(), ephemeral: true);
             }
@@ -99,8 +99,8 @@ namespace Coaction.KickAssCardBot.Services
                 var authorId = ulong.Parse(arg.Data.CustomId.Replace("didyoumean-", ""));
                 if (arg.User.Id == authorId)
                 {
-                    var cardInfo = await _scryfallManagerService.PullScryfallData(arg.Data.Values.FirstOrDefault());
-                    var scryFallSetData = await _scryfallManagerService.PullScryfallSetData(cardInfo?.PrintsSearchUri);
+                    var cardInfo = await _scryfallManagerService.PullScryfallData(arg.Data.Values.FirstOrDefault()!);
+                    var scryFallSetData = await _scryfallManagerService.PullScryfallSetData(cardInfo.PrintsSearchUri!);
                     var purchaseCardButtons = ButtonComponentHelper.BuildBuyButtons(cardInfo, selectItems: scryFallSetData.BuildPrintingSelectMenu());
                     await arg.UpdateAsync(properties =>
                     {
@@ -125,7 +125,7 @@ namespace Coaction.KickAssCardBot.Services
                         var embed = new EmbedBuilder
                         {
                             Title = magicEvent.Name,
-                            Description = $"{magicEvent.Description.Replace("\n", "")} \n ```{magicEvent.Store.PostalAddress.Replace("\n", " ")}```",
+                            Description = $"{magicEvent.Description!.Replace("\n", "")} \n ```{magicEvent.Store!.PostalAddress!.Replace("\n", " ")}```",
                             Url = $"https://locator.wizards.com/events/{eventId}",
                             Color = Color.DarkGreen,
                             Timestamp = magicEvent.StartDatetime,
@@ -135,13 +135,13 @@ namespace Coaction.KickAssCardBot.Services
                             }
                         };
 
-                        var formattedFormat = magicEvent.Format.ToLower();
+                        var formattedFormat = magicEvent.Format!.ToLower();
                         embed.AddField($"{nameof(magicEvent.Distance)}", $"{Math.Round(magicEvent.Distance.ConvertToMiles(), 2)} Miles", true);
                         embed.AddField($"{nameof(magicEvent.Format)}", $"{char.ToUpper(formattedFormat[0])}{formattedFormat[1..]}", true);
-                        embed.AddField($"{nameof(magicEvent.Store.Name)}", magicEvent.Store.Name, true);
+                        embed.AddField($"{nameof(magicEvent.Store.Name)}", magicEvent.Store!.Name, true);
                         embed.AddField($"{nameof(magicEvent.Currency)}", $"${magicEvent.Cost * 0.01} {magicEvent.Currency}", true);
-                        embed.AddField($"{nameof(magicEvent.Store.PhoneNumber)}", magicEvent.Store.PhoneNumber, true);
-                        embed.AddField($"{nameof(magicEvent.Store.Website)}", magicEvent.Store.Website, true);
+                        embed.AddField($"{nameof(magicEvent.Store.PhoneNumber)}", magicEvent.Store!.PhoneNumber, true);
+                        embed.AddField($"{nameof(magicEvent.Store.Website)}", magicEvent.Store!.Website, true);
                         await arg.RespondAsync(embed: embed.Build(), ephemeral: true);
                     }
                 }
@@ -159,11 +159,11 @@ namespace Coaction.KickAssCardBot.Services
                     var splitValues = arg.Data.Values.FirstOrDefault()?.Split("-");
                     var tournmanetId = splitValues?[1];
                     var roundId = splitValues?[2];
-                    var roundData = await _mtgMeleeManager.GetTournamentResults(tournmanetId);
+                    var roundData = await _mtgMeleeManager.GetTournamentResults(tournmanetId!);
                     var componentBuilder = new ComponentBuilder();
                     componentBuilder.WithSelectMenu($"mtgmelee-tournament-{tournmanetId}", roundData.BuildRoundSelectionMenu());
 
-                    await arg.RespondAsync(embed: MtgMeleeOutput.OutputDecklistAggregator(roundData, roundId).Build(), components: componentBuilder.Build(), ephemeral: true);
+                    await arg.RespondAsync(embed: MtgMeleeOutput.OutputDecklistAggregator(roundData, roundId!).Build(), components: componentBuilder.Build(), ephemeral: true);
                 }
                 catch (Exception e)
                 {
@@ -181,7 +181,7 @@ namespace Coaction.KickAssCardBot.Services
                 var guidFromComponent = Guid.Parse(customId.Replace("rules-", ""));
                 var cardData = await _scryfallManagerService.PullScryfallData(guidFromComponent);
                 var cardRules = await _scryfallManagerService.PullScryFallRuleData(guidFromComponent);
-                var firstRule = cardRules.Rules.FirstOrDefault();
+                var firstRule = cardRules.Rules!.FirstOrDefault();
                 await component.RespondAsync(embed: _mtgCardOutputManager.RulingOutput(cardRules, cardData, firstRule).Build(), components: ButtonComponentHelper.BuildRuleButtons(cardRules, firstRule, cardData.Id).Build(), ephemeral: true);
             }
 
@@ -197,19 +197,19 @@ namespace Coaction.KickAssCardBot.Services
                     var cardData = await _scryfallManagerService.PullScryfallData(oracleId);
                     if (customId.Contains("CardRule-Send-"))
                     {
-                        await component.RespondAsync(embed: _mtgCardOutputManager.RulingOutput(rules, cardData, rules.Rules[parsedIndex]).Build());
+                        await component.RespondAsync(embed: _mtgCardOutputManager.RulingOutput(rules, cardData, rules.Rules![parsedIndex]).Build());
                         return Task.CompletedTask;
                     }
-                    ScryFallCardRulingsModel.Rule rule = null;
+                    ScryFallCardRulingsModel.Rule? rule = null;
 
                     if (customId.Contains("Next"))
                     {
-                        rule = rules.Rules[parsedIndex + 1];
+                        rule = rules.Rules![parsedIndex + 1];
                     }
 
                     if (customId.Contains("Previous"))
                     {
-                        rule = rules.Rules[parsedIndex - 1];
+                        rule = rules.Rules![parsedIndex - 1];
                     }
 
                     await component.RespondAsync(

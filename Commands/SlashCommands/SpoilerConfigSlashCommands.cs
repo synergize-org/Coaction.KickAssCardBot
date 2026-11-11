@@ -55,7 +55,7 @@ namespace Coaction.KickAssCardBot.Commands.SlashCommands
             _spoilerStateStore.SaveGuildConfig(config);
 
             var response = enabled
-                ? $"Spoiler posting is enabled and cards will be posted in {channel.Mention}."
+                ? $"Spoiler posting is enabled and cards will be posted in {channel!.Mention}."
                 : "Spoiler posting is now disabled for this server.";
 
             await RespondAsync(response, ephemeral: true);

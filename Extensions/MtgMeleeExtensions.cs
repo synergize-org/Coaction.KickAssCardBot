@@ -9,7 +9,7 @@ namespace Coaction.KickAssCardBot.Extensions
         {
             var optionBuilder = new List<SelectMenuOptionBuilder>();
             foreach (var round in rounds) {
-                var firstDecklist = round.Value.Data.FirstOrDefault();
+                var firstDecklist = round.Value.Data!.FirstOrDefault();
                 if (firstDecklist == null) 
                 {
                     continue;

@@ -26,7 +26,7 @@ namespace Coaction.KickAssCardBot
                 .ConfigureAppConfiguration((context, config) =>
                 {
                     config.AddEnvironmentVariables();
-                    config.AddUserSecrets(Assembly.GetEntryAssembly());
+                    config.AddUserSecrets(Assembly.GetEntryAssembly()!);
                 })
                 .ConfigureServices((context, services) =>
                 {

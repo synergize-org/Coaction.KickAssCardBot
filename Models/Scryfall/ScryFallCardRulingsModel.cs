@@ -11,9 +11,9 @@ namespace Coaction.KickAssCardBot.Models.Scryfall
             public string? source { get; set; }
             public string? published_at { get; set; }
             public string? comment { get; set; }
-            public int CompareTo(Rule other)
+            public int CompareTo(Rule? other)
             {
-                if (@object == other.@object && oracle_id == other.oracle_id && source == other.source &&
+                if (@object == other!.@object && oracle_id == other.oracle_id && source == other.source &&
                     published_at == other.published_at && comment == other.comment)
                 {
                     return 1;
