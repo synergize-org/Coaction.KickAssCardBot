@@ -9,13 +9,13 @@
         public long Draw { get; set; }
         public long RecordsTotal { get; set; }
         public long RecordsFiltered { get; set; }
-        public List<DataItem> Data { get; set; }
+        public List<DataItem>? Data { get; set; }
         public string? Download { get; set; }
     }
 
     public class DataItem
     {
-        public Team Team { get; set; }
+        public Team? Team { get; set; }
         public DateTime DateCreated { get; set; }
         public long MatchingMethod { get; set; }
         public bool StandingsPublished { get; set; }
@@ -53,10 +53,10 @@
 
     public class Team
     {
-        public PlayersItem[] Players { get; set; }
+        public PlayersItem[]? Players { get; set; }
         public long ID { get; set; }
         public string? Name { get; set; }
-        public string StatusDescription { get; set; }
+        public string? StatusDescription { get; set; }
         public bool IsActive { get; set; }
     }
 
@@ -92,7 +92,7 @@
     {
         public long DecklistId { get; set; }
         public long PlayerId { get; set; }
-        public string DecklistName { get; set; }
-        public string Format { get; set; }
+        public string? DecklistName { get; set; }
+        public string? Format { get; set; }
     }
 }

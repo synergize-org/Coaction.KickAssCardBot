@@ -11,7 +11,7 @@ namespace Coaction.KickAssCardBot.Models.MagicEventLocator
         public int Id { get; set; }
 
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [JsonProperty("latitude")]
         public double Latitude { get; set; }
@@ -65,10 +65,10 @@ namespace Coaction.KickAssCardBot.Models.MagicEventLocator
         public bool IsTestStore { get; set; }
 
         [JsonProperty("status")]
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
         [JsonProperty("language")]
-        public string Language { get; set; }
+        public string? Language { get; set; }
 
         [JsonProperty("wpnRep")]
         public string? WpnRep { get; set; }

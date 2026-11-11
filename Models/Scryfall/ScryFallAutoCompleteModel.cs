@@ -2,9 +2,9 @@
 {
     public class ScryFallAutoCompleteModel
     {
-        public string @object { get; set; }
+        public string? @object { get; set; }
         public int total_values { get; set; }
-        public List<string> data { get; set; }
+        public List<string>? data { get; set; }
 
     }
 }

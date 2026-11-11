@@ -2,6 +2,6 @@
 {
     public class MtgEmoji
     {
-        public Dictionary<string, ulong> Emojis { get; set; }
+        public Dictionary<string, ulong>? Emojis { get; set; }
     }
 }

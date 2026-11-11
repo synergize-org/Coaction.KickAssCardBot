@@ -7,7 +7,7 @@ namespace Coaction.KickAssCardBot.Models.Scryfall
     public class ScryfallPrints
     {
         [JsonProperty("object")]
-        public string Object { get; set; }
+        public string? Object { get; set; }
 
         [JsonProperty("total_cards")]
         public int TotalCards { get; set; }
@@ -16,7 +16,7 @@ namespace Coaction.KickAssCardBot.Models.Scryfall
         public bool HasMore { get; set; }
 
         [JsonProperty("data")]
-        public List<ScryfallDataModel.CardData> CardData { get; set; }
+        public List<ScryfallDataModel.CardData>? CardData { get; set; }
 
         public ScryfallPrints FilterOnlyPrintsWithPricingData()
         {

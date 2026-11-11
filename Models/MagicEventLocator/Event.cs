@@ -14,10 +14,10 @@ namespace Coaction.KickAssCardBot.Models.MagicEventLocator
         public string? GroupId { get; set; }
 
         [JsonProperty("status")]
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [JsonProperty("cost")]
         public double Cost { get; set; }

@@ -8,12 +8,12 @@ namespace Coaction.KickAssCardBot.Models.GeoLocation
         public Bounds? Bounds { get; set; }
 
         [JsonProperty("location")]
-        public Location Location { get; set; }
+        public Location? Location { get; set; }
 
         [JsonProperty("location_type")]
-        public string LocationType { get; set; }
+        public string? LocationType { get; set; }
 
         [JsonProperty("viewport")]
-        public Viewport Viewport { get; set; }
+        public Viewport? Viewport { get; set; }
     }
 }

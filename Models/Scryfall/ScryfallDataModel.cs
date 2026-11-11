@@ -11,7 +11,7 @@ namespace Coaction.KickAssCardBot.Models.Scryfall
             public List<CardFace>? CardFaces { get; set; }
 
             [JsonProperty("object")]
-            public string Object { get; set; }
+            public string? Object { get; set; }
 
             [JsonProperty("id")]
             public Guid Id { get; set; }
@@ -32,22 +32,22 @@ namespace Coaction.KickAssCardBot.Models.Scryfall
             public long TcgplayerId { get; set; }
 
             [JsonProperty("name")]
-            public string Name { get; set; }
+            public string? Name { get; set; }
 
             [JsonProperty("lang")]
-            public string Lang { get; set; }
+            public string? Lang { get; set; }
 
             [JsonProperty("released_at")]
             public DateTimeOffset ReleasedAt { get; set; }
 
             [JsonProperty("uri")]
-            public string Uri { get; set; }
+            public string? Uri { get; set; }
 
             [JsonProperty("scryfall_uri")]
-            public string ScryfallUri { get; set; }
+            public string? ScryfallUri { get; set; }
 
             [JsonProperty("layout")]
-            public string Layout { get; set; }
+            public string? Layout { get; set; }
 
             [JsonProperty("highres_image")]
             public bool HighresImage { get; set; }
@@ -62,7 +62,7 @@ namespace Coaction.KickAssCardBot.Models.Scryfall
             public long Cmc { get; set; }
 
             [JsonProperty("type_line")]
-            public string TypeLine { get; set; }
+            public string? TypeLine { get; set; }
 
             [JsonProperty("power")]
             public string? Power { get; set; }
@@ -77,10 +77,10 @@ namespace Coaction.KickAssCardBot.Models.Scryfall
             public string[]? Colors { get; set; }
 
             [JsonProperty("color_identity")]
-            public string[] ColorIdentity { get; set; }
+            public string[]? ColorIdentity { get; set; }
 
             [JsonProperty("legalities")]
-            public Legalities Legalities { get; set; }
+            public Legalities? Legalities { get; set; }
 
             [JsonProperty("loyalty")]
             public uint Loyalty { get; set; }
@@ -98,7 +98,7 @@ namespace Coaction.KickAssCardBot.Models.Scryfall
             };
 
             [JsonProperty("games")]
-            public string[] Games { get; set; }
+            public string[]? Games { get; set; }
 
             [JsonProperty("reserved")]
             public bool Reserved { get; set; }
@@ -119,34 +119,34 @@ namespace Coaction.KickAssCardBot.Models.Scryfall
             public bool Reprint { get; set; }
 
             [JsonProperty("set")]
-            public string Set { get; set; }
+            public string? Set { get; set; }
 
             [JsonProperty("set_name")]
-            public string SetName { get; set; }
+            public string? SetName { get; set; }
 
             [JsonProperty("set_uri")]
-            public string SetUri { get; set; }
+            public string? SetUri { get; set; }
 
             [JsonProperty("set_search_uri")]
-            public string SetSearchUri { get; set; }
+            public string? SetSearchUri { get; set; }
 
             [JsonProperty("scryfall_set_uri")]
-            public string ScryfallSetUri { get; set; }
+            public string? ScryfallSetUri { get; set; }
 
             [JsonProperty("rulings_uri")]
-            public string RulingsUri { get; set; }
+            public string? RulingsUri { get; set; }
 
             [JsonProperty("prints_search_uri")]
-            public string PrintsSearchUri { get; set; }
+            public string? PrintsSearchUri { get; set; }
 
             [JsonProperty("collector_number")]
-            public string CollectorNumber { get; set; }
+            public string? CollectorNumber { get; set; }
 
             [JsonProperty("digital")]
             public bool Digital { get; set; }
 
             [JsonProperty("rarity")]
-            public string Rarity { get; set; }
+            public string? Rarity { get; set; }
 
             [JsonProperty("flavor_text")]
             public string? FlavorText { get; set; }
@@ -158,10 +158,10 @@ namespace Coaction.KickAssCardBot.Models.Scryfall
             public string? Artist { get; set; }
 
             [JsonProperty("border_color")]
-            public string BorderColor { get; set; }
+            public string? BorderColor { get; set; }
 
             [JsonProperty("frame")]
-            public string Frame { get; set; }
+            public string? Frame { get; set; }
 
             [JsonProperty("full_art")]
             public bool FullArt { get; set; }
@@ -173,10 +173,10 @@ namespace Coaction.KickAssCardBot.Models.Scryfall
             public long EdhrecRank { get; set; }
 
             [JsonProperty("prices")]
-            public Prices Prices { get; set; }
+            public Prices? Prices { get; set; }
 
             [JsonProperty("related_uris")]
-            public RelatedUris RelatedUris { get; set; }
+            public RelatedUris? RelatedUris { get; set; }
 
             [JsonProperty("purchase_uris")]
             public PurchaseUris? PurchaseUris { get; set; }
@@ -198,63 +198,63 @@ namespace Coaction.KickAssCardBot.Models.Scryfall
         public class ImageUris
         {
             [JsonProperty("small")]
-            public string Small { get; set; }
+            public string? Small { get; set; }
 
             [JsonProperty("normal")]
-            public string Normal { get; set; }
+            public string? Normal { get; set; }
 
             [JsonProperty("large")]
-            public string Large { get; set; }
+            public string? Large { get; set; }
 
             [JsonProperty("png")]
-            public string Png { get; set; }
+            public string? Png { get; set; }
 
             [JsonProperty("art_crop")]
-            public string ArtCrop { get; set; }
+            public string? ArtCrop { get; set; }
 
             [JsonProperty("border_crop")]
-            public string BorderCrop { get; set; }
+            public string? BorderCrop { get; set; }
         }
 
         public class Legalities
         {
             [JsonProperty("standard")]
-            public string Standard { get; set; }
+            public string? Standard { get; set; }
 
             [JsonProperty("future")]
-            public string Future { get; set; }
+            public string? Future { get; set; }
 
             [JsonProperty("frontier")]
             public string? Frontier { get; set; }
 
             [JsonProperty("modern")]
-            public string Modern { get; set; }
+            public string? Modern { get; set; }
 
             [JsonProperty("legacy")]
-            public string Legacy { get; set; }
+            public string? Legacy { get; set; }
 
             [JsonProperty("pauper")]
-            public string Pauper { get; set; }
+            public string? Pauper { get; set; }
 
             [JsonProperty("vintage")]
-            public string Vintage { get; set; }
+            public string? Vintage { get; set; }
 
             [JsonProperty("penny")]
-            public string Penny { get; set; }
+            public string? Penny { get; set; }
 
             [JsonProperty("commander")]
-            public string Commander { get; set; }
+            public string? Commander { get; set; }
 
             [JsonProperty("duel")]
-            public string Duel { get; set; }
+            public string? Duel { get; set; }
 
             [JsonProperty("oldschool")]
-            public string Oldschool { get; set; }
+            public string? Oldschool { get; set; }
 
             [JsonProperty("pioneer")]
-            public string Pioneer { get; set; }
+            public string? Pioneer { get; set; }
             [JsonProperty("historic")]
-            public string Historic { get; set; }
+            public string? Historic { get; set; }
         }
 
         public class Prices
@@ -301,9 +301,9 @@ namespace Coaction.KickAssCardBot.Models.Scryfall
 
         public class CardFace
         {
-            public string @object { get; set; }
-            public string name { get; set; }
-            public string mana_cost { get; set; }
+            public string? @object { get; set; }
+            public string? name { get; set; }
+            public string? mana_cost { get; set; }
             public string? type_line { get; set; }
             public string? oracle_text { get; set; }
             public List<string>? colors { get; set; }
