@@ -8,7 +8,7 @@ namespace Coaction.KickAssCardBot.Models
         public ulong ChannelId { get; set; }
 
         [JsonProperty("ConfiguredFormats", NullValueHandling = NullValueHandling.Ignore)]
-        public List<string> ListOfFormats { get; set; }
+        public List<string>? ListOfFormats { get; set; }
 
         public DiscordServerChannelModel(ulong serverid, ulong channelid)
         {

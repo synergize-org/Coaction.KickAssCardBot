@@ -8,7 +8,7 @@ namespace Coaction.KickAssCardBot.Models.Scryfall
         public class CardData : IEquatable<CardData>
         {
             [JsonProperty("card_faces")]
-            public List<CardFace> CardFaces { get; set; }
+            public List<CardFace>? CardFaces { get; set; }
 
             [JsonProperty("object")]
             public string Object { get; set; }
@@ -20,7 +20,7 @@ namespace Coaction.KickAssCardBot.Models.Scryfall
             public Guid OracleId { get; set; }
 
             [JsonProperty("multiverse_ids")]
-            public long[] MultiverseIds { get; set; }
+            public long[]? MultiverseIds { get; set; }
 
             [JsonProperty("mtgo_id")]
             public long MtgoId { get; set; }
@@ -53,10 +53,10 @@ namespace Coaction.KickAssCardBot.Models.Scryfall
             public bool HighresImage { get; set; }
 
             [JsonProperty("image_uris")]
-            public ImageUris ImageUris { get; set; }
+            public ImageUris? ImageUris { get; set; }
 
             [JsonProperty("mana_cost")]
-            public string ManaCost { get; set; }
+            public string? ManaCost { get; set; }
 
             [JsonProperty("cmc")]
             public long Cmc { get; set; }
@@ -65,16 +65,16 @@ namespace Coaction.KickAssCardBot.Models.Scryfall
             public string TypeLine { get; set; }
 
             [JsonProperty("power")]
-            public string Power { get; set; }
+            public string? Power { get; set; }
 
             [JsonProperty("toughness")]
-            public string Toughness { get; set; }
+            public string? Toughness { get; set; }
 
             [JsonProperty("oracle_text")]
-            public string OracleText { get; set; }
+            public string? OracleText { get; set; }
 
             [JsonProperty("colors")]
-            public string[] Colors { get; set; }
+            public string[]? Colors { get; set; }
 
             [JsonProperty("color_identity")]
             public string[] ColorIdentity { get; set; }
@@ -149,13 +149,13 @@ namespace Coaction.KickAssCardBot.Models.Scryfall
             public string Rarity { get; set; }
 
             [JsonProperty("flavor_text")]
-            public string FlavorText { get; set; }
+            public string? FlavorText { get; set; }
 
             [JsonProperty("illustration_id")]
             public Guid IllustrationId { get; set; }
 
             [JsonProperty("artist")]
-            public string Artist { get; set; }
+            public string? Artist { get; set; }
 
             [JsonProperty("border_color")]
             public string BorderColor { get; set; }
@@ -179,7 +179,7 @@ namespace Coaction.KickAssCardBot.Models.Scryfall
             public RelatedUris RelatedUris { get; set; }
 
             [JsonProperty("purchase_uris")]
-            public PurchaseUris PurchaseUris { get; set; }
+            public PurchaseUris? PurchaseUris { get; set; }
 
             public bool Equals(CardData? other)
             {
@@ -260,43 +260,43 @@ namespace Coaction.KickAssCardBot.Models.Scryfall
         public class Prices
         {
             [JsonProperty("usd")]
-            public string Usd { get; set; }
+            public string? Usd { get; set; }
 
             [JsonProperty("usd_foil")]
-            public string UsdFoil { get; set; }
+            public string? UsdFoil { get; set; }
 
             [JsonProperty("eur")]
-            public string Eur { get; set; }
+            public string? Eur { get; set; }
 
             [JsonProperty("tix")]
-            public string Tix { get; set; }
+            public string? Tix { get; set; }
         }
 
         public class PurchaseUris
         {
             [JsonProperty("tcgplayer")]
-            public string Tcgplayer { get; set; }
+            public string? Tcgplayer { get; set; }
 
             [JsonProperty("cardmarket")]
-            public string Cardmarket { get; set; }
+            public string? Cardmarket { get; set; }
 
             [JsonProperty("cardhoarder")]
-            public string Cardhoarder { get; set; }
+            public string? Cardhoarder { get; set; }
         }
 
         public class RelatedUris
         {
             [JsonProperty("gatherer")]
-            public string Gatherer { get; set; }
+            public string? Gatherer { get; set; }
 
             [JsonProperty("tcgplayer_decks")]
-            public string TcgplayerDecks { get; set; }
+            public string? TcgplayerDecks { get; set; }
 
             [JsonProperty("edhrec")]
-            public string Edhrec { get; set; }
+            public string? Edhrec { get; set; }
 
             [JsonProperty("mtgtop8")]
-            public string Mtgtop8 { get; set; }
+            public string? Mtgtop8 { get; set; }
         }
 
         public class CardFace
@@ -304,17 +304,17 @@ namespace Coaction.KickAssCardBot.Models.Scryfall
             public string @object { get; set; }
             public string name { get; set; }
             public string mana_cost { get; set; }
-            public string type_line { get; set; }
-            public string oracle_text { get; set; }
-            public List<string> colors { get; set; }
-            public string power { get; set; }
-            public string toughness { get; set; }
-            public string artist { get; set; }
-            public string artist_id { get; set; }
-            public string illustration_id { get; set; }
-            public ImageUris image_uris { get; set; }
-            public List<string> color_indicator { get; set; }
-            public string flavor_text { get; set; }
+            public string? type_line { get; set; }
+            public string? oracle_text { get; set; }
+            public List<string>? colors { get; set; }
+            public string? power { get; set; }
+            public string? toughness { get; set; }
+            public string? artist { get; set; }
+            public string? artist_id { get; set; }
+            public string? illustration_id { get; set; }
+            public ImageUris? image_uris { get; set; }
+            public List<string>? color_indicator { get; set; }
+            public string? flavor_text { get; set; }
             [JsonProperty("defense")]
             public uint Defense { get; set; }
         }

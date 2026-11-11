@@ -5,7 +5,7 @@
         public string @object { get; set; }
         public string id { get; set; }
         public string code { get; set; }
-        public string mtgo_code { get; set; }
+        public string? mtgo_code { get; set; }
         public int tcgplayer_id { get; set; }
         public string name { get; set; }
         public string uri { get; set; }

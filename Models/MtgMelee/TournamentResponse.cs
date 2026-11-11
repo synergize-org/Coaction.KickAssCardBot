@@ -41,14 +41,14 @@
         public long RoundId { get; set; }
         public long TeamId { get; set; }
         public long TournamentId { get; set; }
-        public string Format { get; set; }
-        public string PhaseName { get; set; }
-        public string MatchingMethodDescription { get; set; }
-        public string Round { get; set; }
-        public DecklistsItem[] Decklists { get; set; }
-        public string GameRecord { get; set; }
-        public string MatchRecord { get; set; }
-        public string FormatDescription { get; set; }
+        public string? Format { get; set; }
+        public string? PhaseName { get; set; }
+        public string? MatchingMethodDescription { get; set; }
+        public string? Round { get; set; }
+        public DecklistsItem[]? Decklists { get; set; }
+        public string? GameRecord { get; set; }
+        public string? MatchRecord { get; set; }
+        public string? FormatDescription { get; set; }
     }
 
     public class Team
@@ -64,24 +64,24 @@
     {
         public long TeamId { get; set; }
         public long ID { get; set; }
-        public string ScreenName { get; set; }
-        public MetadataDictionary MetadataDictionary { get; set; }
+        public string? ScreenName { get; set; }
+        public MetadataDictionary? MetadataDictionary { get; set; }
         public long ProfileImageVersion { get; set; }
-        public string DisplayName { get; set; }
-        public string DisplayNameLastFirst { get; set; }
-        public string Username { get; set; }
-        public string ArenaScreenName { get; set; }
+        public string? DisplayName { get; set; }
+        public string? DisplayNameLastFirst { get; set; }
+        public string? Username { get; set; }
+        public string? ArenaScreenName { get; set; }
         public long DciNumber { get; set; }
-        public string DiscordUsername { get; set; }
-        public string FirstName { get; set; }
+        public string? DiscordUsername { get; set; }
+        public string? FirstName { get; set; }
         public string? GemPlayerId { get; set; }
-        public string LastName { get; set; }
-        public string MtgoScreenName { get; set; }
-        public string Name { get; set; }
-        public string NameLastFirst { get; set; }
+        public string? LastName { get; set; }
+        public string? MtgoScreenName { get; set; }
+        public string? Name { get; set; }
+        public string? NameLastFirst { get; set; }
         public string? AsmoConnectId { get; set; }
-        public string LanguageDescription { get; set; }
-        public string PronounsDescription { get; set; }
+        public string? LanguageDescription { get; set; }
+        public string? PronounsDescription { get; set; }
     }
 
     public class MetadataDictionary
