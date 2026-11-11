@@ -41,12 +41,14 @@ namespace Coaction.KickAssCardBot
                     services.AddSingleton<InteractionHandlingService>();
                     services.AddSingleton<CommandService>();
                     services.AddSingleton<InteractionService>();
+                    services.AddSingleton<SpoilerStateStore>();
                     services.AddScoped<ScryfallManagerService>();
                     services.AddSingleton<MtgCardOutputManager>();
                     services.AddScoped<WizardsEventLocatorManager>();
                     services.AddScoped<GeoLocationApiManager>();
                     services.AddScoped<HtmlAgilityManager>();
                     services.AddScoped<MtgMeleeManager>();
+                    services.AddHostedService<ScryfallSpoilerMonitoringService>();
                     services.AddMemoryCache();
                 })
                 .ConfigureLogging(logging =>

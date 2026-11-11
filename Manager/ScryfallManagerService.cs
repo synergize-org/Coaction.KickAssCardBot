@@ -190,6 +190,39 @@ namespace Coaction.KickAssCardBot.Manager
             throw new Exception($"Failed to deserialize scryfall set data data for {urlFromInitial}");
         }
 
+        public async Task<List<ScryfallSpoilerSearchResult>> PullRecentSpoilers(int resultLimit = 20)
+        {
+            var query = "order:spoiled has:imagedata -is:extra -!Plains -!Island -!Swamp -!Mountain -!Forest";
+            var encodedQuery = Uri.EscapeDataString(query);
+            var url = $"https://api.scryfall.com/cards/search?q={encodedQuery}&order=spoiled&unique=prints&include_extras=false&format=json";
+            var cacheKey = $"spoilers-{encodedQuery}";
+            var cacheValue = _memoryCache.Get(cacheKey);
+            if (cacheValue is List<ScryfallSpoilerSearchResult> cachedSpoilers)
+            {
+                return cachedSpoilers.Take(resultLimit).ToList();
+            }
+
+            try
+            {
+                var response = await _httpClient.GetStringAsync(url);
+                var result = JsonConvert.DeserializeObject<ScryfallSpoilerSearchResponse>(response, _serializerSettings)
+                    ?? throw new Exception("Failed to deserialize spoiler search results.");
+
+                var spoilerResults = result.Data
+                    .Where(x => !string.IsNullOrWhiteSpace(x.Id))
+                    .Take(resultLimit)
+                    .ToList();
+
+                _memoryCache.Set(cacheKey, spoilerResults, _cacheEntryOptions);
+                return spoilerResults;
+            }
+            catch (Exception msg)
+            {
+                _logger.LogError(msg, $"Failed to pull recent spoiler cards due to {msg.Message}");
+                throw new Exception($"Failed to obtain recent spoiler cards due to {msg.Message}.", msg);
+            }
+        }
+
         private async Task<string> FuzzyScryFall(string cardName)
         {
             try
@@ -242,5 +275,17 @@ namespace Coaction.KickAssCardBot.Manager
 
             return legalitiesDictionary;
         }
+    }
+
+    public class ScryfallSpoilerSearchResponse
+    {
+        public List<ScryfallSpoilerSearchResult> Data { get; set; } = new();
+    }
+
+    public class ScryfallSpoilerSearchResult
+    {
+        public string Id { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public string? ScryfallUri { get; set; }
     }
 }
