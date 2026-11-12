@@ -190,7 +190,7 @@ namespace Coaction.KickAssCardBot.Manager
             throw new Exception($"Failed to deserialize scryfall set data data for {urlFromInitial}");
         }
 
-        public async Task<List<ScryfallSpoilerSearchResult>> PullRecentSpoilers(int resultLimit = 20)
+        public async Task<List<ScryfallSpoilerSearchResult>> PullRecentSpoilers()
         {
             var query = "order:spoiled has:imagedata -is:extra -!Plains -!Island -!Swamp -!Mountain -!Forest";
             var encodedQuery = Uri.EscapeDataString(query);
@@ -204,7 +204,6 @@ namespace Coaction.KickAssCardBot.Manager
 
                 var spoilerResults = result.Data
                     .Where(x => !string.IsNullOrWhiteSpace(x.Id))
-                    .Take(resultLimit)
                     .ToList();
 
                 return spoilerResults;
