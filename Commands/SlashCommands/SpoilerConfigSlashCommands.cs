@@ -15,6 +15,7 @@ namespace Coaction.KickAssCardBot.Commands.SlashCommands
         }
 
         [SlashCommand("spoiler-config", "Enable or disable spoiler posting and choose the channel to post spoilers to.")]
+        [RequireUserPermission(GuildPermission.ManageChannels)]
         public async Task ConfigureSpoilers(
             [Summary("enabled", "Whether spoiler posting is enabled for this server.")] bool enabled = true,
             [Summary("channel", "The text channel to post spoiler cards to.")] ITextChannel? channel = null)
