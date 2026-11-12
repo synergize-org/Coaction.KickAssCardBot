@@ -119,7 +119,8 @@ namespace Coaction.KickAssCardBot.Services
                     .Where(x => Guid.TryParse(x.Id, out _) &&
                                 !string.IsNullOrWhiteSpace(x.SetName) &&
                                 !_spoilerStateStore.HasPostedCard(config.GuildId, x.Id) &&
-                                !_spoilerStateStore.HasQueuedCard(config.GuildId, x.Id))
+                                !_spoilerStateStore.HasQueuedCard(config.GuildId, x.Id) &&
+                                x.ReleasedAt >= DateTime.UtcNow.AddDays(-7)) // Only consider spoilers released in the last 7 days)
                     .GroupBy(x => x.SetName.Trim(), StringComparer.OrdinalIgnoreCase)
                     .OrderBy(x => x.Key, StringComparer.OrdinalIgnoreCase);
 
