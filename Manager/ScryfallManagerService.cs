@@ -192,7 +192,7 @@ namespace Coaction.KickAssCardBot.Manager
 
         public async Task<List<ScryfallSpoilerSearchResult>> PullRecentSpoilers()
         {
-            var query = "order:spoiled has:imagedata -is:extra -!Plains -!Island -!Swamp -!Mountain -!Forest";
+            var query = $"order:spoiled date>now";
             var encodedQuery = Uri.EscapeDataString(query);
             var url = $"https://api.scryfall.com/cards/search?q={encodedQuery}&order=spoiled&unique=prints&include_extras=false&format=json";
 
@@ -203,7 +203,7 @@ namespace Coaction.KickAssCardBot.Manager
                     ?? throw new Exception("Failed to deserialize spoiler search results.");
 
                 var spoilerResults = result.Data
-                    .Where(x => !string.IsNullOrWhiteSpace(x.Id))
+                    .Where(x => !string.IsNullOrWhiteSpace(x.Id) && x.Games.Contains("paper"))
                     .ToList();
 
                 return spoilerResults;
@@ -283,5 +283,6 @@ namespace Coaction.KickAssCardBot.Manager
         public string SetName { get; set; } = string.Empty;
         [JsonProperty("released_at")]
         public DateTime ReleasedAt { get; set; }
+        public List<string> Games { get; set; } = new();
     }
 }
