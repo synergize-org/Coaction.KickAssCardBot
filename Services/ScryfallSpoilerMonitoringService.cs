@@ -17,7 +17,7 @@ namespace Coaction.KickAssCardBot.Services
         private readonly MtgCardOutputManager _mtgCardOutputManager;
         private readonly SpoilerStateStore _spoilerStateStore;
         private readonly TaskCompletionSource _clientReady = new(TaskCreationOptions.RunContinuationsAsynchronously);
-        private readonly TimeSpan _pollInterval = TimeSpan.FromHours(24);
+        private readonly TimeSpan _pollInterval = TimeSpan.FromHours(6);
         private readonly TimeSpan _retryDelay = TimeSpan.FromSeconds(1);
 
         public ScryfallSpoilerMonitoringService(
